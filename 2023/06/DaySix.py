@@ -151,13 +151,12 @@ def testCase(part: int = 0):
 
 
 if __name__ == "__main__":
-    boatRaces = testCase(0)
+    boatRaces = testCase(1)
     times, distances = formating(boatRaces)
     boatRaces = raceTimeToDistace(times)
     valideteRaces = valideteRaces(distances, boatRaces)
     print("Part 1: {}".format(sumeOfValideteRaces(valideteRaces)))
     times = convertTable(times)
-    times[0] = 71503
     distances = convertTable(distances)
     boatRaces = raceTimeToDistace(times)
     valideteRaces = valideteRacesTwo(distances, boatRaces)
