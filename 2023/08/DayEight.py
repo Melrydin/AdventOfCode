@@ -84,7 +84,7 @@ def formating(input: list):
     return instructions, currentPosition
 
 
-def findPositionMoveeCount(instructions: list, PositionMove: dict):
+def findPositionMoveCount(instructions: list, PositionMove: dict):
     counter = 0
     groundstring = instructions
     currentPosition = "AAA"
@@ -121,4 +121,4 @@ def testCase(part: int = 0):
 if __name__ == "__main__":
     input = testCase(2)
     formating = formating(input)
-    print("Part 1: {}".format(findPositionMoveeCount(formating[0], formating[1])))
+    print("Part 1: {}".format(findPositionMoveCount(formating[0], formating[1])))
