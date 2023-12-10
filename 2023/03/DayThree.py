@@ -142,33 +142,50 @@ def gearsTatio(engineSchematic: list, numbersToBeVerified: list):
         isValidetet = False
         star = 0
         i = number[0]
-        id = number[0]+2
         for j in range(number[2],number[3]+1):
             if i+1 < lengthRow:
                 if engineSchematic[i+1][j] in symbols:
                     isValidetet = True
-                    star = j
+                    break
+            if i-1 >= 0:
+                if engineSchematic[i-1][j] in symbols:
+                    isValidetet = True
+                    break
+            if j-1 <= lengthColume:
+                if engineSchematic[i][j-1] in symbols:
+                    isValidetet = True
                     break
             if i+1 < lengthRow and j-1 > 0:
                 if engineSchematic[i+1][j-1] in symbols:
                     isValidetet = True
-                    star = j-1
+                    break
+            if i-1 >= 0 and j-1 >= 0:
+                if engineSchematic[i-1][j-1] in symbols:
+                    isValidetet = True
+                    break
+            if j+1 < lengthColume:
+                if engineSchematic[i][j+1] in symbols:
+                    isValidetet = True
+                    break
+            if i-1 >= 0 and j+1 < lengthColume:
+                if engineSchematic[i-1][j+1] in symbols:
+                    isValidetet = True
                     break
             if i+1 < lengthRow and j+1 < lengthColume:
                 if engineSchematic[i+1][j+1] in symbols:
                     isValidetet = True
-                    star = j+1
                     break
         if isValidetet:
             for gear in numbersToBeVerified:
-                if gear[0] == id:
+                if gear is not number:
                     if star >= gear[2] and star <= gear[3]:
                         sume += int(number[1]) * int(gear[1])
                         break
                     elif star-1 <= gear[3] and star > gear[2]:
                         sume += int(number[1]) * int(gear[1])
-                        break                      
+                        break
     return sume
+
 
 def testCase(part: int = 0):
     if part == 0:
@@ -196,7 +213,7 @@ def testCase(part: int = 0):
                 ".*.......*..",
                 "1.1..503+.56"]
     else:
-        return inputDocument("DayThree.txt")
+        return inputDocument("2023/03/DayThree.txt")
 
 
 if __name__ == "__main__":

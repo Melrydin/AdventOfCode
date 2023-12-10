@@ -100,7 +100,7 @@ def formating(input: list):
 def differenceSteps(singleValue: list):
     for single in range(0,len(singleValue)):
         for i in singleValue[single]:
-            if sum(i) == 0:
+            if sum([abs(x) for x in i]) == 0:
                 break
             else:
                 nextSteps = []
@@ -110,7 +110,7 @@ def differenceSteps(singleValue: list):
     return singleValue
 
 
-def CalculateNextValues(evolution: list):
+def calculateNextValues(evolution: list):
     sume = 0
     for evo in evolution:
         evo.reverse()
@@ -120,6 +120,18 @@ def CalculateNextValues(evolution: list):
             newValue = x + y
             evo[i+1].append(newValue)
         sume += evo[-1][-1]
+    return sume
+
+
+def calculateBeforeValues(evolution):
+    sume = 0
+    for evo in evolution:
+        for i in range(0,len(evo)-1):
+            x = evo[i][0]
+            y = evo[i+1][0]
+            newValue = y - x
+            evo[i+1].insert(0,newValue)
+        sume += evo[-1][0]
     return sume
 
 
@@ -137,4 +149,5 @@ if __name__ == "__main__":
     formating = formating(input)
     evolution = differenceSteps(formating)
 
-    print("Part 1: {}".format(CalculateNextValues(evolution)))
+    print("Part 1: {}".format(calculateNextValues(evolution)))
+    print("Part 2: {}".format(calculateBeforeValues(evolution)))
