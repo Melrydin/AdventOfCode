@@ -107,7 +107,7 @@ Starting with the same initial image, expand the universe according to these new
 """
 
 import numpy as np
-
+import time
 
 def inputDocument(document: str):
     with open(document, "r") as file:
@@ -117,53 +117,53 @@ def inputDocument(document: str):
 
 def formating(input: list):
     galaxyCounter = 1
-    galaxyMap = np.zeros((len(input),len(input[0])), dtype=int)
-    for i in range(len(input)):
-        k = list(input[i])
-        for j in range(len(k)):
-            if k[j] == "#":
-                galaxyMap[i][j] = galaxyCounter
-                galaxyCounter += 1
-            else:
-                galaxyMap[i][j] = 0
+    lenInput = len(input)
+
+    galaxyMap = np.zeros((lenInput,lenInput), dtype=int)
+    galaxyPosion = [(zeile, spalte) for zeile, zeichen in enumerate(input) for spalte, symbol in enumerate(zeichen) if symbol == '#']
+
+    for galaxy in galaxyPosion:
+        galaxyMap[galaxy[0]][galaxy[1]] = galaxyCounter
+        galaxyCounter += 1
     return galaxyMap
-        
 
-def expandeUniverse(input: np.array):
-    isNotExpantion = False
-    for i in range(len(input)):
-        if sum(input[i]) == 0 and isNotExpantion == False:
-            input = np.insert(input, i, np.zeros(len(input[0])), axis=0)
-            isNotExpantion = True
-        else:
-            isNotExpantion = False
-    isNotExpantion = False
-    for i in range(len(input)):
-        sume = 0
-        sume = sum(input[:,i])
-        if sume == 0 and isNotExpantion == False:
-            input = np.insert(input, i, np.zeros(len(input)), axis=1)
-            isNotExpantion = True
-        else:
-            isNotExpantion = False
+
+def expandeUniverse(input: np.array, expansion: int):
+    lenInput = len(input)
+    emptyRows = [row for row in range(lenInput) if sum(input[row]) == 0]
+    emptyColumns = [column for column in range(lenInput) if sum(input[:,column]) == 0]
+
+    counter = 0
+    for i in emptyRows:
+        for ex in range(0,expansion-1):
+            input = np.insert(input, i + ex + counter, np.zeros(len(input[0])), axis=0)
+        counter += expansion -1
+
+    counter = 0
+    for i in emptyColumns:
+        for ex in range(0,expansion-1):
+            input = np.insert(input, i + ex + counter, np.zeros(len(input[:,0])), axis=1)
+        counter += expansion -1
     return input
+    
 
+def galaxiesPairSume(input_array: np.array):
+    sumDistance = 0
+    checked = set()
 
-def galaxiesPairSume(input: np.array):
-    sumeDistance = 0
-    checket = []
-    for i in range(len(input)):
-        for j in range(len(input[0])):
-            if input[i][j] != 0:
-                for i_1 in range(len(input)):
-                    for j_1 in range(len(input[0])):
-                        if input[i_1][j_1] != 0:
-                            if input[i_1][j_1] not in checket:
-                                checket.append(input[i][j])
-                                distance = abs(i-i_1) + abs(j-j_1)
-                                sumeDistance += distance
-                                #print("Galaxy {} to Galaxy {} distance is {}".format(input[i][j], input[i_1][j_1], distance))
-    return sumeDistance
+    nonZeroIndices = np.nonzero(input_array)
+    nonZeroCoordinates = list(zip(nonZeroIndices[0], nonZeroIndices[1]))
+
+    for i, j in nonZeroCoordinates:
+        if input_array[i][j] not in checked:
+            checked.add(input_array[i][j])
+
+            distances = np.abs(i - nonZeroIndices[0]) + np.abs(j - nonZeroIndices[1])
+            sumDistance += np.sum(distances)
+            
+    sumDistance /= 2
+
+    return int(sumDistance)
                             
 
 def testCase(part: int = 0):
@@ -184,11 +184,10 @@ def testCase(part: int = 0):
 
 
 if __name__ == "__main__":
-    input = testCase(1)
+    input = testCase(0)
     format = formating(input)
-    expant = expandeUniverse(format)
+    expant = expandeUniverse(format,2)
+    startTime = time.time()
     print("Part 1: {}".format(galaxiesPairSume(expant)))
-
-
-
-
+    expant = expandeUniverse(format,10)
+    print("Part 2: {}".format(galaxiesPairSume(expant)))
