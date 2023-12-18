@@ -63,3 +63,86 @@ To summarize your pattern notes, add up the number of columns to the left of eac
 
 Find the line of reflection in each of the patterns in your notes. What number do you get after summarizing all of your notes?
 """
+import numpy as np
+
+def inputDocument(document: str):
+    input = []
+    with open(document, "r") as file:
+        mirror = []
+        for line in file:
+            line = line.strip()
+            if line == "":
+                input.append(mirror)
+                mirror = []
+            else:
+                mirror.append(line)
+        input.append(mirror)
+    return input
+
+
+def convertToArry(mirror: list):
+    mirrorPosion = [(row, column) for row, symbols in enumerate(mirror) for column, symbol in enumerate(symbols) if symbol == '#']
+    mirror = np.zeros((len(mirror), len(mirror[0])), dtype=int)
+    for row, column in mirrorPosion:
+        mirror[row, column] = 1
+    return mirror
+
+def findReflection(mirror: np.ndarray):
+    sumeYList = []
+    for reflectionAche in range(len(mirror[0])):
+        sumeY = 0
+        for i in range(len(mirror[0])):
+            if -i+reflectionAche <= 0 or i+reflectionAche+1 >= len(mirror[0]):
+                break
+            elif np.array_equal(mirror[:,-i+reflectionAche], mirror[:,i+reflectionAche+1]):
+                sumeY += 1
+        sumeYList.append(sumeY)
+    sumeXList = []
+    for reflectionAche in range(len(mirror)):
+        sumeX = 0
+        for i in range(len(mirror)):
+            if -i+reflectionAche <= 0 or i+reflectionAche+1 >= len(mirror):
+                break
+            elif np.array_equal(mirror[-i+reflectionAche], mirror[i+reflectionAche+1]):
+                sumeX += 1
+        sumeXList.append(sumeX)
+    maxReflections = [(sumeXList.index(max(sumeXList))+1,max(sumeXList)), (sumeYList.index(max(sumeYList))+1,max(sumeYList))]
+    print(maxReflections)
+    if maxReflections[0][1] > maxReflections[1][1]:
+        return maxReflections[0][0] * 100
+    else:  
+        return maxReflections[1][0]
+
+
+def sumeReflection(mirror: np.ndarray):
+    sume = 0
+    for i in range(len(mirror)):
+        sume += findReflection(mirror[i])
+        print(sume)
+    return sume
+
+
+def testCase(part: int = 0):
+    if part == 0:
+        return [["#.##..##.",
+                "..#.##.#.",
+                "##......#",
+                "##......#",
+                "..#.##.#.",
+                "..##..##.",
+                "#.#.##.#."],
+                ["#...##..#",
+                "#....#..#",
+                "..##..###",
+                "#####.##.",
+                "#####.##.",
+                "..##..###",
+                "#....#..#"]]
+    else:
+        return inputDocument("2023/13/DayThirteen.txt")
+
+
+if __name__ == "__main__":
+    input = testCase(1)
+    format = [convertToArry(mirror) for mirror in input]
+    print("Part 1: {}".format(sumeReflection(format)))
