@@ -68,6 +68,8 @@ The last number, 3, appears in the right list three times; the similarity score 
 So, for these example lists, the similarity score at the end of this process is 31 (9 + 4 + 0 + 0 + 9 + 9).
 
 Once again consider your left and right lists. What is their similarity score?
+
+Your puzzle answer was 23082277.
 """
 
 def inputDocument(document: str):
@@ -88,28 +90,18 @@ def testCase(part: int = 0):
 
 def formatDocument(document: str):
     document = [list(map(int, line.split())) for line in document]
-    left, right = [line[0] for line in document], [line[1] for line in document]
-    return sorted(left), sorted(right)
+    return sorted([line[0] for line in document]), sorted([line[1] for line in document])
 
 def calculateDistance(left: list[int], right: list[int]) -> int:
-    distance = sum(abs(left[i] - right[i]) for i in range(len(left)))  # Part 1: Add up distances between pairs of numbers
-    return distance
+    return sum(abs(left[i] - right[i]) for i in range(len(left)))  # Part 1: Add up distances between pairs of numbers
 
 
 def calculateDistanceTotalSimilarityScore(left: list[int], right: list[int]) -> int:
-    totalSimilarityScore = 0
-    for l in left:
-        duplicat = 0
-        for r in right:
-            if l == r:
-                duplicat += 1
-        totalSimilarityScore += l * duplicat
+    return sum(l * right.count(l) for l in left)  # Part 2: Multiply number(left list) by frequency(right list)
 
 
-    return totalSimilarityScore
 if __name__ == "__main__":
     document = testCase(1)
     left, right = formatDocument(document)
     print(f"Part 1: {calculateDistance(left, right)}")
     print(f"Part 2: {calculateDistanceTotalSimilarityScore(left, right)}")
-    
