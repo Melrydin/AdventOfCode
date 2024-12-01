@@ -87,49 +87,63 @@ def extraktNumber(engineSchematic: list):
     return numberInSchematic
 
 
-def isPartNumbers(engineSchematic: list, numbersToBeVerified: list):
-    sume = 0
+def extractSymbols(engineSchematic: list, numbersToBeVerified: list):
     symbols = ["*", "#", "+", "-", "$", "@","=","/", "&", "%"]
-    lengthRow = len(engineSchematic)
-    lengthColume = len(engineSchematic[0])
+    rows, colums = len(engineSchematic), len(engineSchematic[0])
+    engineSchematicSymbols = []
     for number in numbersToBeVerified:
-        isValidetet = False
         i = number[0]
         for j in range(number[2],number[3]+1):
-            if i+1 < lengthRow:
+            if i+1 < rows:
                 if engineSchematic[i+1][j] in symbols:
-                    isValidetet = True
+                    number.append(engineSchematic[i+1][j])
+                    engineSchematicSymbols.append(number)
                     break
             if i-1 >= 0:
                 if engineSchematic[i-1][j] in symbols:
-                    isValidetet = True
+                    number.append(engineSchematic[i-1][j])
+                    engineSchematicSymbols.append(number)
                     break
-            if j-1 <= lengthColume:
+            if j-1 <= colums:
                 if engineSchematic[i][j-1] in symbols:
-                    isValidetet = True
+                    number.append(engineSchematic[i][j-1])
+                    engineSchematicSymbols.append(number)
                     break
-            if i+1 < lengthRow and j-1 > 0:
+            if i+1 < rows and j-1 > 0:
                 if engineSchematic[i+1][j-1] in symbols:
-                    isValidetet = True
+                    number.append(engineSchematic[i+1][j-1])
+                    engineSchematicSymbols.append(number)
                     break
             if i-1 >= 0 and j-1 >= 0:
                 if engineSchematic[i-1][j-1] in symbols:
-                    isValidetet = True
+                    number.append(engineSchematic[i-1][j-1])
+                    engineSchematicSymbols.append(number)
                     break
-            if j+1 < lengthColume:
+            if j+1 < colums:
                 if engineSchematic[i][j+1] in symbols:
-                    isValidetet = True
+                    number.append(engineSchematic[i][j+1])
+                    engineSchematicSymbols.append(number)
                     break
-            if i-1 >= 0 and j+1 < lengthColume:
+            if i-1 >= 0 and j+1 < colums:
                 if engineSchematic[i-1][j+1] in symbols:
-                    isValidetet = True
+                    number.append(engineSchematic[i-1][j+1])
+                    engineSchematicSymbols.append(number)
                     break
-            if i+1 < lengthRow and j+1 < lengthColume:
+            if i+1 < rows and j+1 < colums:
                 if engineSchematic[i+1][j+1] in symbols:
-                    isValidetet = True
+                    number.append(engineSchematic[i+1][j+1])
+                    engineSchematicSymbols.append(number)
                     break
-        if isValidetet:
-            sume += int(number[1])
+    return engineSchematicSymbols
+
+
+def isPartNumbers(engineSchematicSymbols: list):
+    sume = 0
+    symbols = ["*", "#", "+", "-", "$", "@","=","/", "&", "%"]
+    lengthRow = len(engineSchematic)
+    colums = len(engineSchematic[0])
+    for number in engineSchematicSymbols:
+        sume += int(number[1])
     return sume
 
 
@@ -137,7 +151,7 @@ def gearsTatio(engineSchematic: list, numbersToBeVerified: list):
     sume = 0
     symbols = ["*"]
     lengthRow = len(engineSchematic)
-    lengthColume = len(engineSchematic[0])
+    colums = len(engineSchematic[0])
     for number in numbersToBeVerified:
         isValidetet = False
         star = 0
@@ -151,7 +165,7 @@ def gearsTatio(engineSchematic: list, numbersToBeVerified: list):
                 if engineSchematic[i-1][j] in symbols:
                     isValidetet = True
                     break
-            if j-1 <= lengthColume:
+            if j-1 <= colums:
                 if engineSchematic[i][j-1] in symbols:
                     isValidetet = True
                     break
@@ -163,15 +177,15 @@ def gearsTatio(engineSchematic: list, numbersToBeVerified: list):
                 if engineSchematic[i-1][j-1] in symbols:
                     isValidetet = True
                     break
-            if j+1 < lengthColume:
+            if j+1 < colums:
                 if engineSchematic[i][j+1] in symbols:
                     isValidetet = True
                     break
-            if i-1 >= 0 and j+1 < lengthColume:
+            if i-1 >= 0 and j+1 < colums:
                 if engineSchematic[i-1][j+1] in symbols:
                     isValidetet = True
                     break
-            if i+1 < lengthRow and j+1 < lengthColume:
+            if i+1 < lengthRow and j+1 < colums:
                 if engineSchematic[i+1][j+1] in symbols:
                     isValidetet = True
                     break
@@ -219,6 +233,8 @@ def testCase(part: int = 0):
 if __name__ == "__main__":
     engineSchematic = testCase(3)
     numbersToBeVerified = extraktNumber(engineSchematic)
+    engineSchematicSymbols = extractSymbols(engineSchematic, numbersToBeVerified)
+    
 
-    print("Part 1: " + str(isPartNumbers(engineSchematic,numbersToBeVerified)))
+    print("Part 1: " + str(isPartNumbers(engineSchematicSymbols)))
     print("Part 2: " + str(gearsTatio(engineSchematic,numbersToBeVerified)))
