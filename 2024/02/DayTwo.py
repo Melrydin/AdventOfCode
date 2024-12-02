@@ -94,45 +94,29 @@ def markSafeOrUnsafeReports(reports: list[list[int]]) -> list[bool]:
 
 
 def isSafe(report: list[int]) -> bool:
-    if report[0] < report[-1]: # Report go up
-            for i in range(len(report) - 1):
-                result = report[i + 1] - report[i]
-                if report[i] > report[i + 1]:
-                    return False
-                elif 1 <= result> 3 or result == 0:
-                    return False
-    else: # Report go down
-        for i in range(len(report) - 1):
-            result = report[i] - report[i + 1]
-            if report[i] < report[i + 1]:
-                return False
-            elif 1 <= result > 3 or result == 0:
-                return False
+    direction = 1 if report[0] < report[-1] else -1  # Determine the direction (ascending or descending)
+    for i in range(len(report) - 1):
+        result = direction * (report[i + 1] - report[i])  # Calculate the difference with direction
+        if result < 1 or result > 3:  # Difference must be in the range [1, 3]
+            return False
     return True
 
 
-
 def markSafeOrUnsafeReportsWithDampener(reports: list[list[int]]) -> list[bool]:
-    safeOrUnsafeReports = markSafeOrUnsafeReports(reports)
-    safeOrUnsafeReportsWithDampener = []
-    for i in range(len(reports)):
-        if safeOrUnsafeReports[i] == False:
-            ReportWithDampingVariations = []
-            for _ in range(len(reports[i])):
-                ReportWithDampingVariations.append(reports[i].copy())
-            for reportVariation in range(len(ReportWithDampingVariations)):
-                del ReportWithDampingVariations[reportVariation][reportVariation]
-            safe = False
-            for report in ReportWithDampingVariations:
-                if isSafe(report):
-                    safe = True
-                    safeOrUnsafeReportsWithDampener.append(True)
-                    break
-            if safe:
-                safeOrUnsafeReportsWithDampener.append(False)
+    originalSafety = markSafeOrUnsafeReports(reports)
+    adjustedSafety = []
+
+    for i, report in enumerate(reports):
+        if not originalSafety[i]:
+            reportVariations = [report[:j] + report[j + 1:] for j in range(len(report))]
+            if any(isSafe(variation) for variation in reportVariations):
+                adjustedSafety.append(True)
+            else:
+                adjustedSafety.append(False)
         else:
-            safeOrUnsafeReportsWithDampener.append(True)
-    return safeOrUnsafeReportsWithDampener
+            adjustedSafety.append(True)
+
+    return adjustedSafety
 
 
 if __name__ == "__main__":
