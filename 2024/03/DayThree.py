@@ -47,35 +47,43 @@ Handle the new instructions; what do you get if you add up all of the results of
 
 import re
 
-def inputDocument(document: str):
-    with open(document, "r") as file:
-        input = [line.strip() for line in file.readlines() if line.strip()]
-    return input
+def inputDocument(document: str) -> str:
+    return open(document).read()
 
 
 def testCase(part: int = 0):
     if part == 0:
-        return ["xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))"]
+        return "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"
     else:
         return inputDocument("2024/03/input.txt")
 
 
-def searchMenoryStrip(menory: str) -> list[list]:
+def calulateMemory(memory: str) -> list[list]:
     pattern = r"mul\(\d+,\d+\)"
-    results = re.findall(pattern, " ".join([menory]))
-    return [result[4:-1].split(",") for result in results]
+    results = re.findall(pattern, " ".join([memory]))
+    result = [result[4:-1].split(",") for result in results]
+    return sum([int(r[0]) * int(r[1]) for r in result])
 
 
-def calulateMenory(menory: list[str]) -> int:
-    menoryMulti = 0
-    for line in menory:
-        result = searchMenoryStrip(line)
-        menoryMulti += sum([int(r[0]) * int(r[1]) for r in result])
-    return menoryMulti
-
-
+def calulateMemoryDoAndDont(memory: str) -> int:
+    pattern = r"(mul\((\d+),(\d+)\)|do\(\)|don't\(\))"
+    matches = re.findall(pattern, memory)
+    
+    result = 0
+    enabled = True
+    
+    for match in matches:
+        if match[0] == "do()":
+            enabled = True
+        elif match[0] == "don't()":
+            enabled = False
+        elif enabled:  # Handles "mul(x, y)" when enabled
+            x, y = int(match[1]), int(match[2])
+            result += x * y
+    
+    return result
 
 if __name__ == "__main__":
-    document = testCase(0)
-    print(f"Part 1: {calulateMenory(document)}")
-    print(f"Part 2: ")
+    document = testCase(1)
+    print(f"Part 1: {calulateMemory(document)}")
+    print(f"Part 2: {calulateMemoryDoAndDont(document)}")
