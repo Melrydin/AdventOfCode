@@ -25,7 +25,7 @@ def create_structure(year, day):
 
     # Create DayX.py
     with open(script_file, 'w') as f:
-        f.write(f'"""\n\n"""\nif __name__ == "__main__":\n    print("Hello, Day {dayDict.get(day)} in year {year}!")\n')
+        f.write(f'"""\n\n"""\nif __name__ == "__main__":\n    pass')
 
     print(f"Folder and files created in: {path}")
 
