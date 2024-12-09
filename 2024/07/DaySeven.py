@@ -54,7 +54,7 @@ Adding up all six test values (the three that could be made before using only + 
 Using your new knowledge of elephant hiding spots, determine which equations could possibly be true. What is their total calibration result?
 """
 
-import itertools
+import math
 
 def inputDocument(document: str):
     with open(document, "r") as file:
@@ -84,28 +84,30 @@ def calculate(target: int, numbers: list[int], combine: bool) -> bool:
     n = len(numbers)
     stack = [(numbers[0], 1)]
     while stack:
-        current_value, index = stack.pop()
+        currentValue, index = stack.pop()
         if index == n:
-            if current_value == target:
+            if currentValue == target:
                 return True
             continue
         # Add
-        stack.append((current_value + numbers[index], index + 1))
+        stack.append((currentValue + numbers[index], index + 1))
         # Multiply
-        stack.append((current_value * numbers[index], index + 1))
+        stack.append((currentValue * numbers[index], index + 1))
         if combine:
             # Combines
-            stack.append((int(str(current_value) + str(numbers[index])), index + 1))
+            nextNumber = numbers[index]
+            combinedValue = currentValue * (10 ** (math.floor(math.log10(nextNumber)) + 1)) + nextNumber
+            stack.append((combinedValue, index + 1))
     return False
 
 
-def solve(document: list[tuple[int, list[int]]], combine: bool = False) -> int:
+def solve(document: list[tuple[int, list[int]]]) -> int:
     totalPart1 = 0
     totalPart2 = 0
     for target, numbers in document:
-        if calculate(target, numbers, combine):
+        if calculate(target, numbers, False):
             totalPart1 += target
-        if calculate(target, numbers, combine):
+        if calculate(target, numbers, True):
             totalPart2 += target
     return totalPart1, totalPart2
     
@@ -113,5 +115,6 @@ def solve(document: list[tuple[int, list[int]]], combine: bool = False) -> int:
 if __name__ == "__main__":
     document = testCase(1)
     format = formatDocument(document)
-    print(f"Part 1: {solve(format)[0]}")
-    print(f"Part 2: {solve(format,True)[1]}")
+    p1, p2 = solve(format)
+    print(f"Part 1: {p1}")
+    print(f"Part 2: {p2}")

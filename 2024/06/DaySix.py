@@ -270,7 +270,10 @@ def movetheGurd(document: list[str]) -> int:
                 document[x][y] = "v"
         path.append((x, y))
     document[x][y] = "X"
-    return sum([x.count("X") for x in document]), path
+    return sum([x.count("X") for x in document]) , path
+
+
+
 
 
 if __name__ == "__main__":
