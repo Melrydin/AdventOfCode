@@ -80,32 +80,38 @@ def formatDocument(document: list[str]) -> list[tuple[int]]:
     return [(int(test_value), list(map(int, equation.split()))) for test_value, equation in (line.split(": ") for line in document)]
 
 
-def calculate(target: int, numbers: list[int]) -> bool:
+def calculate(target: int, numbers: list[int], combine: bool) -> bool:
     n = len(numbers)
     stack = [(numbers[0], 1)]
     while stack:
         current_value, index = stack.pop()
-
         if index == n:
             if current_value == target:
                 return True
             continue
-        # Addieren
+        # Add
         stack.append((current_value + numbers[index], index + 1))
-        # Multiplizieren
+        # Multiply
         stack.append((current_value * numbers[index], index + 1))
+        if combine:
+            # Combines
+            stack.append((int(str(current_value) + str(numbers[index])), index + 1))
     return False
 
 
-def solve(document: list[tuple[int, list[int]]]) -> int:
-    total = 0
+def solve(document: list[tuple[int, list[int]]], combine: bool = False) -> int:
+    totalPart1 = 0
+    totalPart2 = 0
     for target, numbers in document:
-        if calculate(target, numbers):
-            total += target
-    return total
+        if calculate(target, numbers, combine):
+            totalPart1 += target
+        if calculate(target, numbers, combine):
+            totalPart2 += target
+    return totalPart1, totalPart2
     
 
 if __name__ == "__main__":
     document = testCase(1)
     format = formatDocument(document)
-    print(f"Part 1: {solve(format)}")
+    print(f"Part 1: {solve(format)[0]}")
+    print(f"Part 2: {solve(format,True)[1]}")
