@@ -80,23 +80,29 @@ def formatDocument(document: list[str]) -> list[tuple[int]]:
     return [(int(test_value), list(map(int, equation.split()))) for test_value, equation in (line.split(": ") for line in document)]
 
 
+def calculate(target: int, numbers: list[int]) -> bool:
+    n = len(numbers)
+    stack = [(numbers[0], 1)]
+    while stack:
+        current_value, index = stack.pop()
+
+        if index == n:
+            if current_value == target:
+                return True
+            continue
+        # Addieren
+        stack.append((current_value + numbers[index], index + 1))
+        # Multiplizieren
+        stack.append((current_value * numbers[index], index + 1))
+    return False
+
+
 def solve(document: list[tuple[int, list[int]]]) -> int:
     total = 0
-    for equation in document:
-        operatorCombinations = generateTests(len(equation[1])-1, ["+","*"])
-        for test in operatorCombinations:
-            expression = f"{equation[1][0]}"
-            for i, operator in enumerate(test):
-                expression += f"{operator}{equation[1][i+1]})"
-                expression = f"({expression}"
-            if eval(expression) == equation[0]:
-                total += equation[0]
-                break
+    for target, numbers in document:
+        if calculate(target, numbers):
+            total += target
     return total
-
-def generateTests(length: int, operators: list[str]) -> list[list[str]]:
-    # Generate all permutations of the specified length
-    return list(itertools.product(operators, repeat=length))
     
 
 if __name__ == "__main__":
