@@ -212,6 +212,7 @@ def inputDocument(document: str):
         input = [line.strip() for line in file.readlines() if line.strip()]
     return input
 
+
 def testCase(part: int = 0):
     if part == 0:
         return ["....#.....",
@@ -226,7 +227,8 @@ def testCase(part: int = 0):
                 "......#..."]
     else:
         return inputDocument("2024/06/input.txt")
-    
+
+  
 def movetheGurd(document: list[str]) -> int:
     # Finding the position of the guard
     x = [i for i in range(len(document)) if "^" in document[i]][0]
@@ -271,9 +273,6 @@ def movetheGurd(document: list[str]) -> int:
         path.append((x, y))
     document[x][y] = "X"
     return sum([x.count("X") for x in document]) , path
-
-
-
 
 
 if __name__ == "__main__":
