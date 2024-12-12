@@ -25,15 +25,36 @@ def create_structure(year, day):
 
     # Create DayX.py
     with open(script_file, 'w') as f:
-        f.write(f'"""\n\n"""\nif __name__ == "__main__":\n    pass')
+        f.write(
+                f'"""\n'
+                f'\n'
+                f'"""\n'
+                f'\n'
+                f'\n'
+                f'def inputDocument(document: str) -> list[str]:\n'
+                f'    with open(document, "r") as file:\n'
+                f'        input = [line.strip() for line in file.readlines() if line.strip()]\n'
+                f'    return input\n'
+                f'\n'
+                f'\n'
+                f'def testCase(test: int = 0):\n'
+                f'    if test == 0:\n'
+                f'        return []\n'
+                f'    else:\n'
+                f'        return inputDocument("{year}/{str(day).zfill(2)}/input.txt")\n'
+                f'\n'
+                f'\n'
+                f'if __name__ == "__main__":\n'
+                f'    document = testCase(0)\n'
+                )
 
     print(f"Folder and files created in: {path}")
 
 if __name__ == "__main__":
     # Define arguments
     parser = argparse.ArgumentParser(description="Creates a folder structure for a year and a day.")
-    parser.add_argument('--year', type=int, help="Year (e.g., 2024 or 24)")
-    parser.add_argument('--day', type=int, help="Day (e.g., 1, 2, ... 25)")
+    parser.add_argument('-y','--year', type=int, help="Year (e.g., 2024 or 24)")
+    parser.add_argument('-d','--day', type=int, help="Day (e.g., 1, 2, ... 25)")
 
     # Parse arguments
     args = parser.parse_args()

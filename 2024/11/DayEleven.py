@@ -86,7 +86,7 @@ def testCase(part: int = 0):
         return ["125 17"]
     else:
         return inputDocument("2024/11/input.txt")
-    
+
 
 def newStones(document: np.array) -> np.array:
     results = []
@@ -104,7 +104,6 @@ def newStones(document: np.array) -> np.array:
     return np.array(results, dtype=int)
 
 
-
 def evalationStones(document: np.array, evl: int = 25) -> np.array:
     newSton = document.copy()
     for i in range(evl):
@@ -112,7 +111,7 @@ def evalationStones(document: np.array, evl: int = 25) -> np.array:
         print(f"Evl {i+1}: {len(newSton)}")
     return newSton
 
-    
+
 if __name__ == "__main__":
     document = testCase(1)
     formatedDocment = formateDocument(document)
