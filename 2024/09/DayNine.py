@@ -79,7 +79,7 @@ The first half of this puzzle is complete! It provides one gold star: *
 
 Upon completion, two things immediately become clear. First, the disk definitely has a lot more contiguous free space, just like the amphipod hoped.
 
- Second, the computer is running much more slowly! Maybe introducing all of that file system fragmentation was a bad idea?
+Second, the computer is running much more slowly! Maybe introducing all of that file system fragmentation was a bad idea?
 
 The eager amphipod already has a new plan: rather than move individual blocks, he'd like to try compacting the files on his disk by moving whole files instead.
 
@@ -140,7 +140,6 @@ def memorySwap(decodeMemory: list[str]) -> list[str]:
             continue
         while lastIndex >= 0 and decodeMemory[lastIndex] == ".":
             lastIndex -= 1
-        
         if lastIndex <= i:
             break
         decodeMemory[i] = decodeMemory[lastIndex]
@@ -153,7 +152,7 @@ def checksum(swapMenory: list[str]) -> int:
 
 
 if __name__ == "__main__":
-    document = testCase(1)
+    document = testCase(0)
     formattedDocument = formatDocument(document)
     decMemory = decodeMemory(formattedDocument)
     memory = memorySwap(decMemory)
