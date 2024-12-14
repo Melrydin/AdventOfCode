@@ -44,9 +44,6 @@ For example:
 How many strings are nice under these new rules?
 
 Your puzzle answer was 53.
-
-Both parts of this puzzle are complete! They provide two gold stars: **
-
 """
 
 
@@ -60,7 +57,7 @@ def testCase(test: int = 0):
     if test == 0:
         return ["ugknbfddgicrmopn", "aaa", "jchzalrnumimnmhp", "haegwjzuvuyypxyu", "dvszwmarrgswjxmb"]
     elif test == 1:
-        return ["qjhvhtzxzqqjkmpb", "xxyxx" , "uurcxstgmygtbstg" , "ieodomkazucvgmuy"]
+        return ["qjhvhtzxzqqjkmpb", "xxyxx", "uurcxstgmygtbstg", "ieodomkazucvgmuy"]
     else:
         return inputDocument("2015/05/input.txt")
 
@@ -77,9 +74,7 @@ def niceWord(word: str) -> bool:
             break
     if counter < 3:
         return False
-    for i in range(len(word)-1):
-        if word[i] == word[i+1]:
-            doubles = True
+    doubles = any(word[i] == word[i+1] for i in range(len(word) - 1))
     if doubles == False:
         return False
     for i in notInSubword:
@@ -93,13 +88,11 @@ def niceWord(word: str) -> bool:
 def niceWordNewRules(word: str) -> bool:
     doubles = any(word[i] == word[i+2] for i in range(len(word) - 2))
     hasPair = False
-    pairs = {}
     for i in range(len(word) - 1):
-        pair = word[i:i+2]
-        if pair in pairs and pairs[pair] < i - 1:
+        wordCopy = word.replace(word[i:i+2], "")
+        if len(word) - 4 == len(wordCopy):
             hasPair = True
             break
-        pairs[pair] = i
     return hasPair and doubles
 
 

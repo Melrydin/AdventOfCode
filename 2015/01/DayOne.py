@@ -45,6 +45,7 @@ For example:
 
 What is the position of the character that causes Santa to first enter the basement?
 
+Your puzzle answer was 1771.
 """
 
 def inputDocument(document: str) -> list[str]:
