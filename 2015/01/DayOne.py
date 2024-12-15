@@ -31,7 +31,6 @@ To what floor do the instructions take Santa?
 
 Your puzzle answer was 138.
 
-The first half of this puzzle is complete! It provides one gold star: *
 --- Part Two ---
 
 Now, given the same instructions, find the position of the first character that causes him to enter the basement (floor -1).

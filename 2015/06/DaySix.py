@@ -23,8 +23,6 @@ After following the instructions, how many lights are lit?
 
 Your puzzle answer was 377891.
 
-The first half of this puzzle is complete! It provides one gold star: *
-
 --- Part Two ---
 You just finish implementing your winning light pattern when you realize you mistranslated Santa's message from Ancient Nordic Elvish.
 

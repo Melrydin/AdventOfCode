@@ -18,8 +18,6 @@ For example:
 
 Your puzzle answer was 2572.
 
-The first half of this puzzle is complete! It provides one gold star: *
-
 --- Part Two ---
 The next year, to speed up the process, Santa creates a robot version of himself, Robo-Santa, to deliver presents with him.
 

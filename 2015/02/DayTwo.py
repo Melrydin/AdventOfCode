@@ -16,8 +16,6 @@ All numbers in the elves' list are in feet. How many total square feet of wrappi
 
 Your puzzle answer was 1598415.
 
-The first half of this puzzle is complete! It provides one gold star: *
-
 --- Part Two ---
 The elves are also running low on ribbon. Ribbon is all the same width, so they only have to worry about the length they need to order, which they would again like to be exact.
 
