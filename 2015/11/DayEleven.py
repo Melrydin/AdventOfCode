@@ -31,6 +31,7 @@ Your puzzle answer was hxbxxyzz.
 
 Santa's password expired again. What's the next one?
 
+Your puzzle answer was hxcaabcc.
 """
 
 
