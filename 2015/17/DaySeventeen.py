@@ -19,6 +19,7 @@ Find the minimum number of containers that can exactly fit all 150 liters of egg
 
 In the example above, the minimum number of containers was two. There were three ways to use that many containers, and so the answer there would be 3.
 
+Your puzzle answer was 57.
 """
 
 import itertools
