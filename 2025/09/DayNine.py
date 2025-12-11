@@ -114,7 +114,8 @@ In addition, all of the tiles inside this loop of red and green tiles are also g
 ..............
 
 The remaining tiles are never red nor green.
-The rectangle you choose still must have red tiles in opposite corners, but any other tiles it includes must now be red or green. This significantly limits your options.
+The rectangle you choose still must have red tiles in opposite corners, but any other tiles it includes must now be red or green.
+This significantly limits your options.
 For example, you could make a rectangle out of red and green tiles with an area of 15 between 7,3 and 11,1:
 
 ..............
@@ -152,6 +153,10 @@ The largest rectangle you can make in this example using only red and green tile
 ..............
 
 Using two red tiles as opposite corners, what is the largest area of any rectangle you can make using only red and green tiles?
+
+Your puzzle answer was 1574684850.
+
+Both parts of this puzzle are complete! They provide two gold stars: **
 """
 
 import itertools as it
