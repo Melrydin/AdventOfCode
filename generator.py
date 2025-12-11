@@ -79,7 +79,6 @@ if __name__ == "__main__":
     year = args.year if args.year else now.year
     if year < 100:  # If year is entered as a two-digit number
         year += 2000
-    day = args.day if args.day else now.timetuple().tm_yday
-
+    day = args.day if args.day else now.day
     # Create structure
     create_structure(year, day)
